@@ -4,6 +4,8 @@ Easy and quick astro charting with planets and cusps information.
 
 An SVG image will be saved to the root folder, and a chart will be displayed.
 
+drawCharts.py is the only file needed, while Astronomical.ttf is highly recommended if no other astro-related font in your computer.
+
 ## example
 
 ### using swisseph to get the planets and cusps info
