@@ -94,24 +94,18 @@ class Charting():
             while(index<len(groups)):
                 groups_n = len(groups)
                 next_index = (index+1) % groups_n
-                if groups[index][1]<groups[next_index][1]:
-                    if groups[index][1]+groups[index][2]+self.diff>groups[next_index][1] - groups[next_index][2]:
-                        groups[index][0] += groups[next_index][0]
-                        groups[index][1] = self._middle(degrees[groups[index][0][-1]],degrees[groups[index][0][0]])
-                        groups[index][2] = (len(groups[index][0])-1) * self.diff / 2
-                        groups.pop(next_index)
-                        flag = False
-                    else:
-                        index += 1
+                # if these two group cover 360 deg
+                boolCollide = groups[index][1]<groups[next_index][1]
+                # if they collide
+                boolMerge = groups[index][1]+groups[index][2]+self.diff>groups[next_index][1] - groups[next_index][2] + 0 if boolCollide else 360
+                if boolMerge:
+                    groups[index][0] += groups[next_index][0]
+                    groups[index][1] = self._middle(degrees[groups[index][0][-1]],degrees[groups[index][0][0]])
+                    groups[index][2] = (len(groups[index][0])-1) * self.diff / 2
+                    groups.pop(next_index)
+                    flag = False
                 else:
-                    if groups[index][1]+groups[index][2]+self.diff>groups[next_index][1]+360 - groups[next_index][2]:
-                        groups[index][0] += groups[next_index][0]
-                        groups[index][1] = self._middle(degrees[groups[index][0][-1]],degrees[groups[index][0][0]])
-                        groups[index][2] = (len(groups[index][0])-1) * self.diff / 2
-                        groups.pop(next_index)
-                        flag = False
-                    else:
-                        index += 1
+                    index += 1
             if flag:
                 break
         for group in groups:
